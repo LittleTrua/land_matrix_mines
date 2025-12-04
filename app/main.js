@@ -1,18 +1,32 @@
 import './style.css';
-import {Map, View} from 'ol';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
+import Map from 'ol/Map.js';
+import View from 'ol/View.js';
+import ImageLayer from 'ol/layer/Image.js';
+import TileLayer from 'ol/layer/Tile.js';
+import ImageWMS from 'ol/source/ImageWMS.js';
+import OSM from 'ol/source/OSM.js';
+
+const coucheOSM = new TileLayer({
+  source: new OSM()
+});
+
+const maSource = new ImageWMS({
+  url: 'https://ahocevar.com/geoserver/wms',
+  params: {'LAYERS': 'topp:states'},
+  serverType: 'geoserver',
+});
+
+const maCouche = new ImageLayer({
+  source : maSource
+});
 
 const map = new Map({
   target: 'map',
-  layers: [
-    new TileLayer({
-      source: new OSM()
-    })
-  ],
+  layers: [coucheOSM, maCouche],
   view: new View({
     center: [0, 0],
     zoom: 2
   })
 });
+
 console.log("Yoooo!");
