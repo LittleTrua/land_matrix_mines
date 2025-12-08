@@ -10,14 +10,14 @@ const coucheOSM = new TileLayer({
   source: new OSM()
 });
 
-const maSource = new ImageWMS({
-  url: 'https://ahocevar.com/geoserver/wms',
-  params: {'LAYERS': 'topp:states'},
+const coucheDeals = new ImageWMS({
+  url: 'http://localhost:8080/geoserver/land_matrix/wms',
+  params: {'LAYERS': 'land_matrix:deals'},
   serverType: 'geoserver',
 });
 
 const maCouche = new ImageLayer({
-  source : maSource
+  source : coucheDeals
 });
 
 const map = new Map({
