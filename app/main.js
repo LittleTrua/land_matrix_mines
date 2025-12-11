@@ -10,14 +10,14 @@ import GeoJSON from 'ol/format/GeoJSON.js';
 import VectorLayer from 'ol/layer/Vector';
 import {Circle, Fill, Stroke, Style} from 'ol/style.js';
 
-const  =
+const a = "http://localhost:8080/geoserver/land_matrix/"
 
 const coucheOSM = new TileLayer({
   source: new OSM()
 });
 
 const deals = new ImageWMS({
-  url: 'http://localhost:8080/geoserver/land_matrix/wms',
+  url: a.concat("wms"),
   params: {'LAYERS': 'land_matrix:deals'},
   serverType: 'geoserver',
 });
@@ -28,21 +28,8 @@ const layerDeals = new ImageLayer({
 
 const sourceCentroid = new VectorSource({
   format: new GeoJSON(),
-  url: 'http://localhost:8080/geoserver/land_matrix/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=land_matrix%3Adeals_by_country_centroid&maxFeatures=50&outputFormat=application%2Fjson',
+  url: a.concat("ows?service=WFS&version=1.0.0&request=GetFeature&typeName=land_matrix%3Adeals_by_country_centroid&maxFeatures=50&outputFormat=application%2Fjson"),
 });
-
-// const styleCentroid = new Style({
-//   image: new Circle({
-//     radius: 40,
-//     fill: new Fill({ color: 'rgba(245, 156, 39, 0.5)'}),
-//     stroke: new Stroke({ color: 'rgba(224, 139, 31, 0.8)', width: 2 }),
-//   }),
-// });
-
-// const layerCentroid = new VectorLayer({
-//   source: sourceCentroid,
-//   style: styleCentroid
-// });
 
 function getStyleCentroid(feature) {
   const nDeals = feature.get('n_deals');
@@ -72,3 +59,8 @@ const map = new Map({
 });
 
 console.log("Yoooo!");
+
+const title = document.getElementById("title");
+console.log(title);
+console.log(title.innerHTML);
+title.innerHTML = "Ma super carte !";
