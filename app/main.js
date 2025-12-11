@@ -13,10 +13,12 @@ import { toLonLat } from 'ol/proj';
 
 const a = "http://localhost:8080/geoserver/land_matrix/"
 
+// Couche : Fond de carte OSM
 const coucheOSM = new TileLayer({
   source: new OSM()
 });
 
+// Couche : deals
 const deals = new ImageWMS({
   url: a.concat("wms"),
   params: {'LAYERS': 'land_matrix:deals'},
@@ -27,6 +29,7 @@ const layerDeals = new ImageLayer({
   source : deals
 });
 
+// Couche : deals by country
 const sourceCentroid = new VectorSource({
   format: new GeoJSON(),
   url: a.concat("ows?service=WFS&version=1.0.0&request=GetFeature&typeName=land_matrix%3Adeals_by_country_centroid&maxFeatures=50&outputFormat=application%2Fjson"),
@@ -52,7 +55,7 @@ const layerCentroid = new VectorLayer({
 
 const map = new Map({
   target: 'map',
-  layers: [coucheOSM, layerCentroid],
+  layers: [coucheOSM, layerCentroid, layerDeals],
   view: new View({
     center: [0, 0],
     zoom: 2
@@ -101,5 +104,19 @@ checkboxCountries.addEventListener('change', (event) => {
   } else {
     // On fait des trucs quand la checkbox n’est PAS checkée
     layerCentroid.setVisible(false);
+  }
+});
+
+// layerDeals
+
+const checkboxDeals = document.getElementById('checkbox-deals');
+
+checkboxDeals.addEventListener('change', (event) => {
+  if (event.currentTarget.checked) {
+    // On fait des trucs quand la checkbox est checkée
+    layerDeals.setVisible(true);
+  } else {
+    // On fait des trucs quand la checkbox n’est PAS checkée
+    layerDeals.setVisible(false);
   }
 });
