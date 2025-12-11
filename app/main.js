@@ -89,3 +89,17 @@ button.addEventListener('click', function () {
 map.on('singleclick', function (evt) {
   console.log(toLonLat(evt.coordinate));
 });
+
+// layerCentroid.setVisible(false);
+
+const checkboxCountries = document.getElementById('checkbox-countries');
+
+checkboxCountries.addEventListener('change', (event) => {
+  if (event.currentTarget.checked) {
+    // On fait des trucs quand la checkbox est checkée
+    layerCentroid.setVisible(true);
+  } else {
+    // On fait des trucs quand la checkbox n’est PAS checkée
+    layerCentroid.setVisible(false);
+  }
+});
