@@ -12,11 +12,6 @@ html, body {
 }
 
 .menu {
-  /* Positionnement dans le body */
-  position: absolute;
-  top: 20px;
-  right: 20px;
-
   /* Padding */
   padding: 8px;
 
@@ -25,6 +20,20 @@ html, body {
   min-width: 160px;
 
   /* Rectangle blanc avec coins arrondis */
-  background-color: rgb(83, 221, 152);
+  background-color: white;
   border-radius: 8px;
+}
+
+#layers {
+  /* Positionnement dans le body */
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+#attributes {
+  /* Positionnement dans le body */
+  position: absolute;
+  top: 750px;
+  right: 0px;
 }

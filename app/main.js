@@ -21,7 +21,9 @@ const coucheOSM = new TileLayer({
 // Couche : deals
 const deals = new ImageWMS({
   url: a.concat("wms"),
-  params: {'LAYERS': 'land_matrix:deals'},
+  params: {
+    'LAYERS': 'land_matrix:deals',
+  },
   serverType: 'geoserver',
 });
 
@@ -85,13 +87,15 @@ const button = document.getElementById("bouton");
 
 // button.addEventListener('click', titreOrange);
 
-button.addEventListener('click', function () {
-  map.removeLayer(layerCentroid);
-});
+// button.addEventListener('click', function () {
+//   map.removeLayer(layerCentroid);
+// });
 
-map.on('singleclick', function (evt) {
-  console.log(toLonLat(evt.coordinate));
-});
+// map.on('singleclick', function (evt) {
+//   console.log(toLonLat(evt.coordinate));
+// });
+
+// AJOUTER DE L'INTERACTION
 
 // layerCentroid.setVisible(false);
 
@@ -107,8 +111,6 @@ checkboxCountries.addEventListener('change', (event) => {
   }
 });
 
-// layerDeals
-
 const checkboxDeals = document.getElementById('checkbox-deals');
 
 checkboxDeals.addEventListener('change', (event) => {
@@ -118,5 +120,27 @@ checkboxDeals.addEventListener('change', (event) => {
   } else {
     // On fait des trucs quand la checkbox n’est PAS checkée
     layerDeals.setVisible(false);
+  }
+});
+
+// INTERROGER UNE COUCHE WMS (DEALS)
+
+map.on('singleclick', (event) => {
+  console.log("J’ai cliqué sur la carte !");
+
+  const coord = event.coordinate;
+  const res = map.getView().getResolution();
+  const proj = 'EPSG:3857';
+  const parametres = {'INFO_FORMAT': 'text/html'};
+
+  const url = deals.getFeatureInfoUrl(coord, res, proj, parametres);
+
+  if (url) {
+    fetch(url)
+      .then((response) => response.text())
+      .then((html) => {
+        document.getElementById('attributes').innerHTML = html;
+        console.log(html);
+      });
   }
 });
