@@ -9,6 +9,7 @@ import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON.js';
 import VectorLayer from 'ol/layer/Vector';
 import {Circle, Fill, Stroke, Style} from 'ol/style.js';
+import { toLonLat } from 'ol/proj';
 
 const a = "http://localhost:8080/geoserver/land_matrix/"
 
@@ -60,7 +61,31 @@ const map = new Map({
 
 console.log("Yoooo!");
 
-const title = document.getElementById("title");
-console.log(title);
-console.log(title.innerHTML);
-title.innerHTML = "Ma super carte !";
+// const title = document.getElementById("title");
+// console.log(title);
+// console.log(title.innerHTML);
+// title.innerHTML = "Ma super carte !";
+
+const button = document.getElementById("bouton");
+
+// function direBonjour() {
+//   console.log("Bonjour !");
+// }
+
+// button.addEventListener('click', direBonjour);
+
+// const title = document.getElementById("title");
+
+// function titreOrange() {
+//   title.style.color = "orange";
+// }
+
+// button.addEventListener('click', titreOrange);
+
+button.addEventListener('click', function () {
+  map.removeLayer(layerCentroid);
+});
+
+map.on('singleclick', function (evt) {
+  console.log(toLonLat(evt.coordinate));
+});
