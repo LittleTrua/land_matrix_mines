@@ -9,15 +9,18 @@ import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON.js';
 import VectorLayer from 'ol/layer/Vector';
 import {Circle, Fill, Stroke, Style} from 'ol/style.js';
+import { toLonLat } from 'ol/proj';
 
-const  =
+const a = "http://localhost:8080/geoserver/land_matrix/"
 
+// Couche : Fond de carte OSM
 const coucheOSM = new TileLayer({
   source: new OSM()
 });
 
+// Couche : deals
 const deals = new ImageWMS({
-  url: 'http://localhost:8080/geoserver/land_matrix/wms',
+  url: a.concat("wms"),
   params: {'LAYERS': 'land_matrix:deals'},
   serverType: 'geoserver',
 });
@@ -26,23 +29,11 @@ const layerDeals = new ImageLayer({
   source : deals
 });
 
+// Couche : deals by country
 const sourceCentroid = new VectorSource({
   format: new GeoJSON(),
-  url: 'http://localhost:8080/geoserver/land_matrix/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=land_matrix%3Adeals_by_country_centroid&maxFeatures=50&outputFormat=application%2Fjson',
+  url: a.concat("ows?service=WFS&version=1.0.0&request=GetFeature&typeName=land_matrix%3Adeals_by_country_centroid&maxFeatures=50&outputFormat=application%2Fjson"),
 });
-
-// const styleCentroid = new Style({
-//   image: new Circle({
-//     radius: 40,
-//     fill: new Fill({ color: 'rgba(245, 156, 39, 0.5)'}),
-//     stroke: new Stroke({ color: 'rgba(224, 139, 31, 0.8)', width: 2 }),
-//   }),
-// });
-
-// const layerCentroid = new VectorLayer({
-//   source: sourceCentroid,
-//   style: styleCentroid
-// });
 
 function getStyleCentroid(feature) {
   const nDeals = feature.get('n_deals');
@@ -64,7 +55,7 @@ const layerCentroid = new VectorLayer({
 
 const map = new Map({
   target: 'map',
-  layers: [coucheOSM, layerCentroid],
+  layers: [coucheOSM, layerCentroid, layerDeals],
   view: new View({
     center: [0, 0],
     zoom: 2
@@ -72,3 +63,60 @@ const map = new Map({
 });
 
 console.log("Yoooo!");
+
+// const title = document.getElementById("title");
+// console.log(title);
+// console.log(title.innerHTML);
+// title.innerHTML = "Ma super carte !";
+
+const button = document.getElementById("bouton");
+
+// function direBonjour() {
+//   console.log("Bonjour !");
+// }
+
+// button.addEventListener('click', direBonjour);
+
+// const title = document.getElementById("title");
+
+// function titreOrange() {
+//   title.style.color = "orange";
+// }
+
+// button.addEventListener('click', titreOrange);
+
+button.addEventListener('click', function () {
+  map.removeLayer(layerCentroid);
+});
+
+map.on('singleclick', function (evt) {
+  console.log(toLonLat(evt.coordinate));
+});
+
+// layerCentroid.setVisible(false);
+
+const checkboxCountries = document.getElementById('checkbox-countries');
+
+checkboxCountries.addEventListener('change', (event) => {
+  if (event.currentTarget.checked) {
+    // On fait des trucs quand la checkbox est checkée
+    layerCentroid.setVisible(true);
+  } else {
+    // On fait des trucs quand la checkbox n’est PAS checkée
+    layerCentroid.setVisible(false);
+  }
+});
+
+// layerDeals
+
+const checkboxDeals = document.getElementById('checkbox-deals');
+
+checkboxDeals.addEventListener('change', (event) => {
+  if (event.currentTarget.checked) {
+    // On fait des trucs quand la checkbox est checkée
+    layerDeals.setVisible(true);
+  } else {
+    // On fait des trucs quand la checkbox n’est PAS checkée
+    layerDeals.setVisible(false);
+  }
+});

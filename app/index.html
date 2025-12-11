@@ -7,7 +7,17 @@
     <title>Using OpenLayers with Vite</title>
   </head>
   <body>
+    <h1 id="title">My map</h1>
+    <button id="bouton">Bouton</button>
     <div id="map"></div>
+    <div id="layers_dealsbycountry" class="menu">
+      <input type="checkbox" id="checkbox-countries" name="checkbox-countries" checked />
+      <label for="checkbox-countries">Deals by countries</label>
+        <div id="layers_deals">
+          <input type="checkbox" id="checkbox-deals" name="checkbox-deals" checked />
+          <label for="checkbox-deals">Deals</label>
+        </div>
+    </div>
     <script type="module" src="./main.js"></script>
   </body>
 </html>
