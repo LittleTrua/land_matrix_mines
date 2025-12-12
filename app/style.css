@@ -34,8 +34,8 @@ html, body {
 #attributes {
   /* Positionnement dans le body */
   position: absolute;
-  top: 720px;
-  left: -1700px;
+  bottom: 30px;
+  left: 20px;
 }
 
 #production {

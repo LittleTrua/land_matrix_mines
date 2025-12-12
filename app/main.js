@@ -131,16 +131,17 @@ map.on('singleclick', (event) => {
   const coord = event.coordinate;
   const res = map.getView().getResolution();
   const proj = 'EPSG:3857';
-  const parametres = {'INFO_FORMAT': 'text/html'};
+
+  const parametres = { 'INFO_FORMAT': 'application/json' }
 
   const url = deals.getFeatureInfoUrl(coord, res, proj, parametres);
 
   if (url) {
     fetch(url)
       .then((response) => response.text())
-      .then((html) => {
-        document.getElementById('attributes').innerHTML = html;
-        console.log(html);
+      .then((json) => {
+        const obj = JSON.parse(json);
+        console.log(obj);
       });
   }
 });
