@@ -8,17 +8,54 @@
   </head>
   <body>
     <h1 id="title">My map</h1>
-    <button id="bouton">Bouton</button>
     <div id="map"></div>
+
+    <!-- Bouton pour supprimer la couche 'deals by countries'-->
+    <button id="bouton">Bouton</button>
+
+    <!-- Checkox pour afficher ou masquer des couches -->
     <div id="layers" class="menu">
-      <input type="checkbox" id="checkbox-countries" name="checkbox-countries" checked />
-      <label for="checkbox-countries">Deals by countries</label>
-        <div id="layers_deals">
-          <input type="checkbox" id="checkbox-deals" name="checkbox-deals" checked />
-          <label for="checkbox-deals">Deals</label>
-        </div>
-        <div id="attributes" class="menu"></div>
+      <div>
+        <input type="checkbox" id="checkbox-countries" name="checkbox-countries" checked />
+        <label for="checkbox-countries">Deals by countries</label>
+      </div>
+      <div>
+        <input type="checkbox" id="checkbox-deals" name="checkbox-deals" checked />
+        <label for="checkbox-deals">Deals</label>
+      </div>
     </div>
+
+    <!-- Élément pour afficher les information de la couche 'deals' -->
+    <div id="attributes" class="menu"></div>
+
+    <!-- Radio button menu 'production' -->
+    <div id="production" class="menu">
+      <div>
+        <input type="radio" id="button-coal" name="produce" value="coal" />
+        <label for="coal">Charbon</label>
+      </div>
+      <div>
+        <input type="radio" id="button-gold" name="produce" value="gold" />
+        <label for="gold">Or</label>
+      </div>
+      <div>
+        <input type="radio" id="button-silver" name="produce" value="silver" />
+        <label for="silver">Argent</label>
+      </div>
+      <div>
+        <input type="radio" id="button-lithium" name="produce" value="lithium" />
+        <label for="lithium">Lithium</label>
+      </div>
+      <div>
+        <input type="radio" id="button-cobalt" name="produce" value="cobalt" />
+        <label for="cobalt">Cobalt</label>
+      </div>
+      <div>
+        <input type="radio" id="button-all" name="produce" />
+        <label for="all">Tous</label>
+      </div>
+    </div>
+
     <script type="module" src="./main.js"></script>
   </body>
 </html>
