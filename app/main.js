@@ -21,7 +21,9 @@ const coucheOSM = new TileLayer({
 // Couche : deals
 const deals = new ImageWMS({
   url: a.concat("wms"),
-  params: {'LAYERS': 'land_matrix:deals'},
+  params: {
+    'LAYERS': 'land_matrix:deals',
+  },
   serverType: 'geoserver',
 });
 
@@ -89,9 +91,11 @@ button.addEventListener('click', function () {
   map.removeLayer(layerCentroid);
 });
 
-map.on('singleclick', function (evt) {
-  console.log(toLonLat(evt.coordinate));
-});
+// map.on('singleclick', function (evt) {
+//   console.log(toLonLat(evt.coordinate));
+// });
+
+// AJOUTER DE L'INTERACTION
 
 // layerCentroid.setVisible(false);
 
@@ -107,8 +111,6 @@ checkboxCountries.addEventListener('change', (event) => {
   }
 });
 
-// layerDeals
-
 const checkboxDeals = document.getElementById('checkbox-deals');
 
 checkboxDeals.addEventListener('change', (event) => {
@@ -119,4 +121,63 @@ checkboxDeals.addEventListener('change', (event) => {
     // On fait des trucs quand la checkbox n’est PAS checkée
     layerDeals.setVisible(false);
   }
+});
+
+// INTERROGER UNE COUCHE WMS (DEALS)
+
+map.on('singleclick', (event) => {
+  console.log("J’ai cliqué sur la carte !");
+
+  const coord = event.coordinate;
+  const res = map.getView().getResolution();
+  const proj = 'EPSG:3857';
+  const parametres = {'INFO_FORMAT': 'text/html'};
+
+  const url = deals.getFeatureInfoUrl(coord, res, proj, parametres);
+
+  if (url) {
+    fetch(url)
+      .then((response) => response.text())
+      .then((html) => {
+        document.getElementById('attributes').innerHTML = html;
+        console.log(html);
+      });
+  }
+});
+
+// Charbon
+const buttonCoal = document.getElementById('button-coal');
+buttonCoal.addEventListener('change', () => {
+  deals.updateParams({ 'CQL_FILTER' : 'coal=true' });
+});
+
+// Or
+const buttonGold = document.getElementById('button-gold');
+buttonGold.addEventListener('change', () => {
+  // Quand l’utilisateur clique sur le bouton "Or", je mets à jour mon filtre CQL
+  deals.updateParams({ 'CQL_FILTER' : 'gold=true' });
+});
+
+// Argent
+const buttonSilver = document.getElementById('button-silver');
+buttonSilver.addEventListener('change', () => {
+  deals.updateParams({ 'CQL_FILTER' : 'silver=true' });
+});
+
+// Lithium
+const buttonLithium = document.getElementById('button-lithium');
+buttonLithium.addEventListener('change', () => {
+  deals.updateParams({ 'CQL_FILTER' : 'lithium=true' });
+});
+
+// Cobalt
+const buttonCobalt = document.getElementById('button-cobalt');
+buttonCobalt.addEventListener('change', () => {
+  deals.updateParams({ 'CQL_FILTER' : 'cobalt=true' });
+});
+
+// Tous
+const buttonAll = document.getElementById('button-all');
+buttonAll.addEventListener('change', () => {
+  deals.updateParams({'CQL_FILTER' : ''});
 });
