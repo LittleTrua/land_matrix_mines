@@ -126,7 +126,7 @@ checkboxDeals.addEventListener('change', (event) => {
 // INTERROGER UNE COUCHE WMS (DEALS)
 
 map.on('singleclick', (event) => {
-  console.log("J’ai cliqué sur la carte !");
+  //console.log("J’ai cliqué sur la carte !");
 
   const coord = event.coordinate;
   const res = map.getView().getResolution();
@@ -139,9 +139,13 @@ map.on('singleclick', (event) => {
   if (url) {
     fetch(url)
       .then((response) => response.text())
-      .then((json) => {
+      .then((json) => { // On a aussi changé un truc ici et dans la fonction
         const obj = JSON.parse(json);
-        console.log(obj);
+        if (obj.features[0]) {
+          console.log("J’ai cliqué sur une feature !");
+        } else {
+          console.log("J’ai cliqué à côté…");
+        }
       });
   }
 });
